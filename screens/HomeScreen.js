@@ -5,7 +5,7 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
+  Text,Alert,
   View,FlatList, RefreshControl
 
 } from 'react-native';
@@ -104,6 +104,9 @@ export default function HomeScreen(props) {
 setLoad(false);
 }, 2500);
 
+function show(){
+  Alert.alert('Chức năng đang được xây dựng')
+}
   return (
  <View style={styles.container}>
          <View style={{marginTop:25,alignItems:'center'}}>
@@ -165,7 +168,7 @@ overlayColor='#fff'
         />
 <View style={{height:0.3,backgroundColor:'#ccc'}}/>
 <View style={{alignItems:'center'}}>
-<Text style={styles.textviewall}>Xem Tất Cả ></Text>
+<Text onPress={()=>show()} style={styles.textviewall}>Xem Tất Cả ></Text>
 </View>
       </ScrollView>
 
@@ -187,7 +190,7 @@ overlayColor='#fff'
         />
 <View style={{height:0.3,backgroundColor:'#ccc',marginTop:1}}/>
 <View style={{alignItems:'center'}}>
-<Text style={styles.textviewall}>Xem Tất Cả ></Text>
+<Text  onPress={()=>show()} style={styles.textviewall}>Xem Tất Cả ></Text>
 </View>
       </ScrollView>
 
@@ -209,7 +212,7 @@ overlayColor='#fff'
         />
 <View style={{height:0.4,backgroundColor:'#ccc'}}/>
 <View style={{alignItems:'center'}}>
-<Text style={styles.textviewall}>Xem Tất Cả ></Text>
+<Text  onPress={()=>show()} style={styles.textviewall}>Xem Tất Cả ></Text>
 </View>
       </ScrollView>   
 
@@ -230,7 +233,7 @@ overlayColor='#fff'
         />
 <View style={{height:0.4,backgroundColor:'#ccc'}}/>
 <View style={{alignItems:'center'}}>
-<Text style={styles.textviewall}>Xem Tất Cả ></Text>
+<Text  onPress={()=>show()} style={styles.textviewall}>Xem Tất Cả ></Text>
 </View>
       </ScrollView>   
 
@@ -251,7 +254,7 @@ overlayColor='#fff'
         />
 <View style={{height:0.4,backgroundColor:'#ccc'}}/>
 <View style={{alignItems:'center'}}>
-<Text style={styles.textviewall}>Xem Tất Cả ></Text>
+<Text  onPress={()=>show()} style={styles.textviewall}>Xem Tất Cả ></Text>
 </View>
       </ScrollView>   
 

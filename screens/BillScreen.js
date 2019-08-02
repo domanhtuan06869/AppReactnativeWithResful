@@ -11,7 +11,7 @@ export default function BillScreen(props) {
   var email=props.navigation.getParam('email', 'NO-NAME');
 
 
-
+// lấy Thông tin email đã đặt hàng
   async function  getBillWithEmail() {
     const result = await axios(
       'https://tuan-nodejs.herokuapp.com/bill/detail?email='+email,
@@ -23,6 +23,7 @@ export default function BillScreen(props) {
     getBillWithEmail()
   },[])
 
+  //deleitem
   async function deleteBill(id){
   
       const result = await axios(
