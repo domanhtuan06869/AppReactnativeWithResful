@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import Constants from "expo-constants";
 import { SQLite } from "expo-sqlite";
-
+import axios from 'axios';
 const db = SQLite.openDatabase("db.db");
 export default function DetailProduct(props)  {
   const [check,setCheck]=useState(true)
@@ -68,6 +68,7 @@ useEffect(()=>{
   var url=props.navigation.getParam('url', 'NO-NAME');
   var name=props.navigation.getParam('name', 'NO-NAME');
   var price=props.navigation.getParam('price', 'NO-NAME');
+  var description=props.navigation.getParam('description', 'NO-NAME');
 
 
           return(
@@ -76,7 +77,8 @@ useEffect(()=>{
                   <View style={{alignItems:'center'}}>
                 <Image style={{width:'80%',height:250,marginTop:30}} source={{uri:url}}></Image>
                 <Text style={{fontSize:20}} >{name}</Text>
-                <Text style={{fontWeight:'bold',marginTop:10}}>{price} Vnđ</Text>  
+                <Text style={{fontWeight:'bold',marginTop:10}}>{price} đ</Text>  
+                <Text style={{marginTop:10}}>{description}</Text>  
                 </View>
                 </ScrollView>
                 <TouchableOpacity style={{alignItems:'center',justifyContent:'center',borderRadius:10}} onPress={()=>{

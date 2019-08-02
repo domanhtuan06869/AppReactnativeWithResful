@@ -10,8 +10,10 @@
       "web"
     ],
     "android": {
-      "package": "com.tuan.banhang"
-    },
+      "package": "com.tuan.banhang",
+      "googleServicesFile": "./configgoogle/google-services.json"
+    }, 
+  
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -27,7 +29,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.tuan.banhang",
+      "config":{
+        "googleSignIn":{
+          "reservedClientId":"com.googleusercontent.apps.765297743299-22vpulka4dfgimbil9jhj5ui1vg7u6ae"
+        }
+      }     
     }
   }
 }

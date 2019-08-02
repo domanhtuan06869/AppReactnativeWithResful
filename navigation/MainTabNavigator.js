@@ -5,8 +5,12 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import CartScreen from '../screens/CartScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import UserScreen from '../screens/UserScreen';
 import Detail from '../screens/DetailProduct';
+import Search from '../screens/Search';
+import BuyScreen from '../screens/BuyScreen';
+import BillScreen from '../screens/BillScreen';
+
 
 
 const config = Platform.select({
@@ -17,7 +21,7 @@ const config = Platform.select({
  
 const HomeStack = createStackNavigator(
   {
-    Home: HomeScreen,DetailProduct:Detail
+    Home: HomeScreen,DetailProduct:Detail,Searchproduct:Search
   },
   config
 );
@@ -40,7 +44,7 @@ HomeStack.path = '';
 
 const CartStack = createStackNavigator(
   {
-    Cart: CartScreen,
+    Cart: CartScreen, Buys:BuyScreen
   },
   config
 );
@@ -54,26 +58,26 @@ CartStack.navigationOptions = {
 
 CartStack.path = '';
 
-const SettingsStack = createStackNavigator(
+const UserStack = createStackNavigator(
   {
-    Settings: SettingsScreen,
+    Users: UserScreen,Bills:BillScreen
   },
   config
 );
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+UserStack.navigationOptions = {
+  tabBarLabel: 'User',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-contact' : 'md-contact'} />
   ),
 };
 
-SettingsStack.path = '';
+UserScreen.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   CartStack,
-  SettingsStack,
+  UserStack,
 });
 
 tabNavigator.path = '';

@@ -5,7 +5,7 @@ import NumericInput from 'react-native-numeric-input'
 import { ExpoLinksView } from '@expo/samples';
 const db = SQLite.openDatabase("db.db");
 import { SQLite } from "expo-sqlite";
-export default function CartScreen () {
+export default function CartScreen (props) {
   const[listcart,setListCart]=useState()
 
 
@@ -38,7 +38,6 @@ useEffect(()=>{
       tx => {
         tx.executeSql(`delete from carta where id = ?;`, [id]);
       },
-     Alert.alert('Đã xóa')
     ),show()
   }
  
@@ -50,7 +49,9 @@ function update(id,value){
  
   ), show()
 }
-
+function buy(name,price,sl,id,url){
+props.navigation.navigate('Buys',{name:name,price:price,sl:sl,id:id,url:url})
+}
   return (
     <ScrollView style={styles.container}>
     <FlatList 
@@ -67,11 +68,11 @@ renderItem={({item}) =>
   <View style={{flexDirection:'column',justifyContent:'center'}}>
   <Text> {item.name} </Text>
   <Text style={{fontWeight:'bold'}}> {item.price} đ </Text>
-  <View style={{flexDirection:'row' ,justifyContent:'center'}}> 
+  <View style={{flexDirection:'row' ,justifyContent:'center',marginTop:2}}> 
   <Text style={{textAlign:'center',paddingTop:9}}>Sô lượng:</Text>
   <NumericInput  minValue={1} totalWidth={100}  totalHeight={35} value={item.sl} onChange={value => { update(item.id,value)}} />
   <TouchableOpacity  onPress={()=>{
-
+buy(item.name,item.price,item.sl,item.id,item.url)
 }}>
   <Text style={{width:80,height:35,backgroundColor:'red',textAlign:'center',textAlignVertical:'center',paddingTop:Platform.OS==='ios'?10:0,color:'#fff'}}>Đặt Mua</Text>
 </TouchableOpacity>
@@ -81,7 +82,22 @@ renderItem={({item}) =>
 
 <View style={{height:'100%',width:Platform.OS==='ios'?'20%':'10%',flexDirection:'row-reverse'}}>
   <TouchableOpacity onPress={()=>{
-    delteteProduct(item.id)
+
+Alert.alert(
+  '',
+  'bạn muốn xóa không ?',
+  [
+      
+      {
+          text: 'Cancel',
+          style: 'cancel',
+      }, {
+          text: 'OK',
+          onPress: () =>  {  delteteProduct(item.id)}
+      }
+  ]
+)
+  
   }}>
   <Image style={{width:30,height:30}} source={{uri:'https://firebasestorage.googleapis.com/v0/b/test-8ca79.appspot.com/o/icon%2Fdeletex.png?alt=media&token=beba72ed-607e-4dfe-8d6d-1437ef4cab74'}}></Image>
   </TouchableOpacity>

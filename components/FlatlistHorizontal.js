@@ -15,7 +15,7 @@ import { ActivityIndicator } from 'react-native';
 export default function FlatListHorizontal(props)  {
 
           return(
-            <View style={{margin:5, height: 150,width: 100,backgroundColor:'#fff', alignItems:'center',justifyContent:'center'}}>
+            <View style={{margin:5, height: 170,width: 100,backgroundColor:'#fff', alignItems:'center',justifyContent:'center'}}>
               <TouchableOpacity style={{ alignItems:'center',justifyContent:'center',height: 150,width: 100,}} onPress={()=> 
          props.pr.navigation.navigate('DetailProduct',{name:props.name,price:props.price,url:props.url,description:props.description})
               }>
@@ -29,8 +29,8 @@ export default function FlatListHorizontal(props)  {
           style = {{height: '80%', width: '90%', } }>
             </Image>
 
-            <Text>{props.name}</Text>
-            <Text>{props.price}</Text>
+            <Text style={{textAlign:'center'}}>{props.name}</Text>
+            <Text style={{textAlign:'center'}}>{props.price} đ</Text>
             </TouchableOpacity>
            </View>
           );

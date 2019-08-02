@@ -16,27 +16,29 @@ import axios from 'axios';
 import Flatproduct from '../components/Flastlistproduct'
 import   FlatListHorizontal from '../components/FlatlistHorizontal'
 import  Search from '../screens/Search'
-
-
-
+import  slider from '../constants/slider'
 
 
 import Spinner from 'react-native-loading-spinner-overlay';
+
 export default function HomeScreen(props) {
   
   const [search,setSearch]=useState()
   const[indexSlide,setIndexSlide]=useState(0)
   const [product,setProduct]=useState()
   const [category,setCategory]=useState()
-  const[slide,setSlide]=useState()
   const [ refreshing,setFreshing]=useState(false)
   const [loads,setLoads]=useState(false)
   const [load,setLoad]=useState(true)
+  const [categoryLaptop,setCategoryLaptop]=useState()
+  const [categoryTablet,setCategoryTablet]=useState()
  
-var arr=[{"url":"https://firebasestorage.googleapis.com/v0/b/test-8ca79.appspot.com/o/slide%2Fanhbia2.jpg?alt=media&token=6eba85b0-15de-4b33-940f-02aed9fa0fdd"
-},{"url":"https://firebasestorage.googleapis.com/v0/b/test-8ca79.appspot.com/o/slide%2Fanhbia8.jpg?alt=media&token=1549a924-423a-4808-be0e-61cb0eecefa9"},{"url":"https://firebasestorage.googleapis.com/v0/b/test-8ca79.appspot.com/o/slide%2Fanhbia5.jpg?alt=media&token=361645ca-d580-442c-b5d7-b2a2b0d10b0a"}]
+
   _onRefresh = () => {
     setFreshing(true)
+    getCategory('điện thoại')
+    getCategoryLaptop('máy tính')
+    getCategoryTablet('máy tính bảng')
     getProducts().then(() => {
     setFreshing(false)
     }).catch((err)=>{
@@ -51,11 +53,28 @@ var arr=[{"url":"https://firebasestorage.googleapis.com/v0/b/test-8ca79.appspot.
     setProduct(result.data);
   }
 
-  async function  getCategory() {
+  async function  getCategory(category) {
     const result = await axios(
-      'http://tuan-nodejs.herokuapp.com/product/mobile/search',
+      'http://tuan-nodejs.herokuapp.com/product/mobile/search?category='+category,
     )
     setCategory(result.data);
+    
+   
+  }
+  async function  getCategoryLaptop(category) {
+    const result = await axios(
+      'http://tuan-nodejs.herokuapp.com/product/mobile/search?category='+category,
+    )
+    setCategoryLaptop(result.data);
+ 
+   
+  }
+  async function  getCategoryTablet(category) {
+    const result = await axios(
+      'http://tuan-nodejs.herokuapp.com/product/mobile/search?category='+category,
+    )
+    setCategoryTablet(result.data);
+ 
    
   }
 
@@ -66,7 +85,7 @@ var arr=[{"url":"https://firebasestorage.googleapis.com/v0/b/test-8ca79.appspot.
         setIndexSlide(0)
       }
     
-    },4000)
+    },3000)
     return ()=>{clearInterval(a)}
 
  },[indexSlide])
@@ -75,16 +94,34 @@ var arr=[{"url":"https://firebasestorage.googleapis.com/v0/b/test-8ca79.appspot.
   getProducts().then(()=>{
   setLoads(true)
     })
-  getCategory()
+  getCategory('điện thoại')
+  getCategoryLaptop('máy tính')
+  getCategoryTablet('máy tính bảng')
 
  },[])
 
  setTimeout(() => {
 setLoad(false);
-}, 2100);
+}, 2500);
 
   return (
- 
+ <View style={styles.container}>
+         <View style={{marginTop:25,alignItems:'center'}}>
+      <Searchbar
+      style={{width:'90%',}}
+        placeholder="Search"
+        onChangeText={query => { 
+        }}
+
+   onEndEditing={(text)=>{
+
+props.navigation.navigate('Searchproduct',{name:text.nativeEvent.text})
+
+
+   }}
+   
+      /> 
+      </View>
     <ScrollView refreshControl={ <RefreshControl
       refreshing={refreshing}
       onRefresh={_onRefresh}
@@ -95,33 +132,12 @@ color='#fff'
 
 overlayColor='#fff'
 ></Spinner>
-      <View style={{marginTop:35,alignItems:'center'}}>
-      <Searchbar
-      style={{width:'90%',}}
-        placeholder="Search"
-        onChangeText={query => { 
-        }}
-   onIconPress={query=>{
-     alert('ggg')
-   }}
-   onEndEditing={(text)=>{
-props.navigation.push('DetailProduct')
-  
-    console.log(text.nativeEvent.text)
-   }}
-      /> 
-      </View>
+
       <View style={{marginTop:5}}>
       <Slideshow  
-      dataSource={
-       /* { url:'http://placeimg.com/640/480/55' },
-        { url:'http://placeimg.com/640/480/any' },
-        { url:'http://placeimg.com/640/480/43' }*/
-    
-   arr
-  }
+      dataSource={ slider}
      position={indexSlide} 
-    onPositionChanged={position => setIndexSlide({ position })}
+  //  onPositionChanged={position => setIndexSlide({ position })}
     indicatorSize={10}
     arrowSize={0}
     height={150}
@@ -141,7 +157,7 @@ props.navigation.push('DetailProduct')
         }}
         
         onEndReachedThreshold={0.7}
-          data={product}
+          data={category}
           horizontal
           renderItem={({item}) =>  < FlatListHorizontal pr={props} description={item.description} name={item.name} price={item.price} load={loads} url={item.urlimage}/>
         }
@@ -156,14 +172,14 @@ props.navigation.push('DetailProduct')
 
 
       <ScrollView style={{backgroundColor:'#fff',marginTop:2}}>
-      <Text style={{ fontWeight:'bold',fontSize:20,marginLeft:3}}>Điện Thoại</Text>
+      <Text style={{ fontWeight:'bold',fontSize:20,marginLeft:3}}>Máy tính bảng </Text>
         <FlatList
           contentContainerStyle={{
           alignSelf:'flex-start',
           backgroundColor:'#fff'
           
         }}
-          data={product}
+          data={categoryTablet}
           horizontal
           renderItem={({item}) => < FlatListHorizontal pr={props} description={item.description} name={item.name} price={item.price} url={item.urlimage} load={loads}/>
         }
@@ -178,14 +194,14 @@ props.navigation.push('DetailProduct')
 
    
       <ScrollView style={{backgroundColor:'#fff',marginTop:2}}>
-      <Text style={{ fontWeight:'bold',fontSize:20,marginLeft:3}}>Điện Thoại</Text>
+      <Text style={{ fontWeight:'bold',fontSize:20,marginLeft:3}}>Máy tính</Text>
         <FlatList
           contentContainerStyle={{
           alignSelf:'flex-start',
           backgroundColor:'#fff'
           
         }}
-          data={category}
+          data={categoryLaptop}
           horizontal
           renderItem={({item}) => < FlatListHorizontal pr={props} description={item.description} load={loads} name={item.name} price={item.price} url={item.urlimage}/>
         }
@@ -199,7 +215,7 @@ props.navigation.push('DetailProduct')
 
 
       <ScrollView style={{backgroundColor:'#fff',marginTop:2}}>
-      <Text style={{ fontWeight:'bold',fontSize:20,marginLeft:3}}>Điện Thoại</Text>
+      <Text style={{ fontWeight:'bold',fontSize:20,marginLeft:3}}>Máy giặt</Text>
         <FlatList
           contentContainerStyle={{
           alignSelf:'flex-start',
@@ -220,14 +236,14 @@ props.navigation.push('DetailProduct')
 
 
       <ScrollView style={{backgroundColor:'#fff',marginTop:2}}>
-      <Text style={{ fontWeight:'bold',fontSize:20,marginLeft:3}}>Điện Thoại</Text>
+      <Text style={{ fontWeight:'bold',fontSize:20,marginLeft:3}}>Phụ kiện</Text>
         <FlatList
           contentContainerStyle={{
           alignSelf:'flex-start',
           backgroundColor:'#fff'
           
         }}
-          data={category}
+          data={product}
           horizontal
           renderItem={({item}) => < FlatListHorizontal pr={props} description={item.description} load={loads} name={item.name} price={item.price} url={item.urlimage}/>
         }
@@ -259,13 +275,13 @@ props.navigation.push('DetailProduct')
     showsHorizontalScrollIndicator={false}
   data={product}
   renderItem={({item}) =>
-  <Flatproduct name={item.name} image={item.urlimage}/>
+  <Flatproduct pr={props} price={item.price} description={item.description} name={item.name} url={item.urlimage}/>
 }
   keyExtractor={item => item._id}
 />
 </View>
     </ScrollView>
-
+    </View>
   );
 }
 
